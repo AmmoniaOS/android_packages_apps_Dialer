@@ -38,6 +38,8 @@ import com.android.dialer.calllog.PhoneNumberDisplayHelper;
 import com.android.dialer.calllog.PhoneNumberUtilsWrapper;
 import com.android.dialer.util.DialerUtils;
 import com.google.common.collect.Lists;
+import com.android.internal.util.one.PhoneLocation;
+import com.android.internal.util.one.OneUtils;
 
 import java.util.ArrayList;
 
@@ -200,11 +202,17 @@ public class PhoneCallDetailsHelper {
                 && !PhoneNumberHelper.isUriNumber(details.number.toString())
                 && !mPhoneNumberUtilsWrapper.isVoicemailNumber(details.number)) {
 
+            CharSequence locationLabel = OneUtils.isSupportLanguage(true) ?
+            PhoneLocation.getCityFromPhone(details.number) : details.geocode;
             if (details.numberLabel == ContactInfo.GEOCODE_AS_LABEL) {
-                numberFormattedLabel = details.geocode;
+                numberFormattedLabel = locationLabel;
             } else {
                 numberFormattedLabel = Phone.getTypeLabel(mResources, details.numberType,
                         details.numberLabel);
+                if (!TextUtils.isEmpty(locationLabel)) {
+                    numberFormattedLabel = numberFormattedLabel +
+                    mResources.getString(R.string.list_delimeter) + locationLabel;               
+                }
             }
         }
 
