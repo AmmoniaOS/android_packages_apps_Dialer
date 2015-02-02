@@ -38,7 +38,6 @@ import com.android.dialer.calllog.PhoneNumberDisplayHelper;
 import com.android.dialer.calllog.PhoneNumberUtilsWrapper;
 import com.android.dialer.util.DialerUtils;
 import com.google.common.collect.Lists;
-import com.android.internal.util.one.PhoneLocation;
 import com.android.internal.util.one.OneUtils;
 
 import java.util.ArrayList;
@@ -203,7 +202,7 @@ public class PhoneCallDetailsHelper {
                 && !mPhoneNumberUtilsWrapper.isVoicemailNumber(details.number)) {
 
             CharSequence locationLabel = OneUtils.isSupportLanguage(true) ?
-            PhoneLocation.getCityFromPhone(details.number) : details.geocode;
+            OneUtils.getCityFromPhone(details.number) : details.geocode;
             if (details.numberLabel == ContactInfo.GEOCODE_AS_LABEL) {
                 numberFormattedLabel = locationLabel;
             } else {
